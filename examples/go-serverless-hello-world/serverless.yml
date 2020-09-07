@@ -1,0 +1,70 @@
+service: golang-servlerless
+frameworkVersion: '>=1.28.0 <2.0.0'
+
+provider:
+  name: aws
+  runtime: go1.x
+  stage: dev
+  region: us-east-1
+  profile: default # name of AWS profile (defined in ~/.aws/credentials)
+  memorySize: 128 # Default is 1024
+  timeout: 2 # The default is 6 seconds, max 30
+  logRetentionInDays: 1 # keep logs for 1 day
+  deploymentBucket:
+    name: ng-deployments # change it
+  versionFunctions: false
+
+  usagePlan:
+    quota:
+      limit: 5000
+      offset: 0
+      period: MONTH
+    throttle:
+      burstLimit: 200
+      rateLimit: 100
+
+package:
+  exclude:
+    - ./**
+  include:
+    - ./bin/**
+
+functions:
+  hello:
+    handler: bin/hello
+    events:
+      - http:
+          path: hello
+          method: get
+  world:
+    handler: bin/world
+    events:
+      - http:
+          path: world
+          method: get
+          private: true
+
+resources:
+ Resources:
+  DevApiKey:
+    Type: AWS::ApiGateway::ApiKey
+    Properties:
+      Name: ${self:provider.stage}-api-key
+      Enabled: true
+  
+  UsagePlanKey:
+    Type: AWS::ApiGateway::UsagePlanKey
+    Properties: 
+      KeyId: !Ref DevApiKey
+      KeyType: API_KEY
+      # serverless creates a usage plan with name ApiGatewayUsagePlan, see above usagePlan config
+      UsagePlanId: !Ref ApiGatewayUsagePlan
+
+
+  # custom resource to store api-key value into ssm parameter
+  DevApiKeyValue:
+    Type: Custom::ApiKeyValue
+    Properties:
+      ServiceToken: ${cf:custom-resources-dev.ServiceToken}
+      ApiKeyId: !Ref DevApiKey
+      SsmParamPath: /api/keys/${self:provider.stage}

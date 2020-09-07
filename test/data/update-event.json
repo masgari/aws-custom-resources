@@ -1,0 +1,26 @@
+{
+    "RequestType": "Update",
+    "RequestId": "c7795ec2-876a-4eeb-a39f-bb5bb5ce4548",
+    "ResponseURL": "https://cloudformation-custom-resource-response-useast1.s3.amazonaws.com/...",
+    "ResourceType": "Custom::Echo",
+    "PhysicalResourceId": "2020/09/06/[$LATEST]26704768fa824a23a4fb7060dfa7ef02",
+    "LogicalResourceId": "CustomEcho",
+    "StackId": "stack-arn",
+    "ResourceProperties": {
+        "AnotherProp": "2nd-property",
+        "ItemsList": [
+            "item1",
+            "item2"
+        ],
+        "Name": "Test",
+        "ServiceToken": "custom-resource-handler-arn"
+    },
+    "OldResourceProperties": {
+        "ItemsList": [
+            "item1",
+            "item2"
+        ],
+        "Name": "Test",
+        "ServiceToken": "custom-resource-handler-arn"
+    }
+}

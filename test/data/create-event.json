@@ -1,0 +1,16 @@
+{
+    "RequestType": "Create",
+    "RequestId": "ae4173ae-f6c5-41af-b669-8503dcd34b63",
+    "ResponseURL": "https://cloudformation-custom-resource-response-useast1.s3.amazonaws.com/...",
+    "ResourceType": "Custom::Echo",
+    "LogicalResourceId": "CustomEcho",
+    "StackId": "stack-arn",
+    "ResourceProperties": {
+        "ItemsList": [
+            "item1",
+            "item2"
+        ],
+        "Name": "Test",
+        "ServiceToken": "custom-resource-handler-arn"
+    }
+}
