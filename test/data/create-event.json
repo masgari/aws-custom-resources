@@ -11,6 +11,7 @@
             "item2"
         ],
         "Name": "Test",
+        "Checked": true
         "ServiceToken": "custom-resource-handler-arn"
     }
 }
